@@ -2,16 +2,25 @@
   <section class="container">
     <div>
       <h1 class="title">
-        nuxt.js is hosted by spring boot
+        sample spa
       </h1>
       <h2 class="subtitle">
-        Hello {{ name }}.
+        you submitted data will be here
       </h2>
+      <div
+        v-for="sample in samples"
+        :key="sample.id">
+        <p>{{ sample.text }}</p>
+      </div>
+      <br>
+      <hr>
+      <br>
+      <input v-model="text">
       <div style="display: inline-flex;">
         <button
           class="button--grey"
-          @click="reload"
-        >reload
+          @click="submit"
+        >submit
         </button>
         <logout url="/logout"/>
       </div>
@@ -26,14 +35,26 @@ export default {
   components: {
     Logout
   },
+  data: function() {
+    return {
+      text: null
+    }
+  },
   async asyncData(app) {
-    let response = await app.$axios.get(`/api/hello`)
-    return { name: response.data }
+    let response = await app.$axios.get(`/api/samples`)
+    return { samples: response.data }
   },
   methods: {
-    async reload() {
-      let response = await this.$axios.get(`/api/hello`)
-      this.name = response.data
+    async submit() {
+      await this.$axios.post(`/api/samples`, {
+        text: this.text
+      })
+      let self = this
+      this.$nextTick(async function() {
+        self.samples.splice(0)
+        let response = await self.$axios.get(`/api/samples`)
+        self.samples = response.data
+      })
     }
   }
 }
