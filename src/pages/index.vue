@@ -5,7 +5,7 @@
         sample spa
       </h1>
       <h2 class="subtitle">
-        you submitted data will be here
+        you submitted text will be here
       </h2>
       <div
         v-for="sample in samples"
