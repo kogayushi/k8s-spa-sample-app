@@ -1,7 +1,8 @@
 {
   "name": "k8s-spa-sample-app",
+  "version": "0.0.1-SNAPSHOT",
   "config": {
-    "version": "0.0.3"
+    "registry": "kogayushi"
   },
   "description": "My remarkable Nuxt.js project",
   "author": "yushi koga",
@@ -13,7 +14,8 @@
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "precommit": "npm run lint",
-    "docker-build": "rm -rf node_modules .nuxt dist; docker build . -t sample/spa:$npm_package_config_version"
+    "docker-build": "rm -rf node_modules .nuxt dist; docker build . -t $npm_package_config_registry/$npm_package_name:$npm_package_version --no-cache",
+    "docker-push": "docker push $npm_package_config_registry/$npm_package_name:$npm_package_version"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
